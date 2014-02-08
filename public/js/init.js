@@ -56,6 +56,7 @@ app.config(function ($routeProvider) {
     $routeProvider.
         when('/', {controller: HomeCtrl, templateUrl: 'partials/home.html'}).
         when('/login', {controller: LoginCtrl, templateUrl: 'partials/login.html'}).
+        when('/appboard', {controller: AppBoardCtrl, templateUrl: 'partials/appboard.html'}).
         when('/logout', {controller: LoginCtrl, templateUrl: 'partials/logout.html'}).
         when('/callback', {controller: CallbackCtrl, templateUrl: 'partials/callback.html'}).
         when('/contacts', {controller: ContactListCtrl, templateUrl: 'partials/contact/list.html'}).

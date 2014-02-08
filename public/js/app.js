@@ -38,25 +38,41 @@ function HomeCtrl($scope, AngularForce, $location, $route) {
         $location.path('/login');
     } else if (AngularForce.refreshToken) { //If web, try to relogin using refresh-token
         AngularForce.login(function () {
-            $location.path('/contacts/');
+            console.log("*******IN HomeCtrl*******");
+            $location.path('/appboard/');
+            //$location.path('/contacts/');
             $scope.$apply();//Required coz sfdc uses jquery.ajax
         });
     } else {
         $location.path('/login');
     }
 }
+function AppBoardCtrl($scope, AngularForce, $location) {
+     $scope.showContactsApp = function () {
+        console.log("*****go to contacts app****");
+        $location.path('/contacts/');
+     }
+     $scope.showEmpDirApp = function () {
+        console.log("*****go to empdir app****");
+        $location.path('/empdir/');
+     }
+}
 
 function LoginCtrl($scope, AngularForce, $location) {
     //Usually happens in Cordova
     if (AngularForce.authenticated()) {
-        return $location.path('/contacts/');
+        console.log("Checking.. .authenticated..");
+        return $location.path('/appboard/');//$location.path('/contacts/');
     }
 
     $scope.login = function () {
         //If in visualforce, 'login' = initialize entity framework
         if (AngularForce.inVisualforce) {
            AngularForce.login(function() {
-            $location.path('/contacts/');
+            console.log("In Login Ctrl");
+            $location.path('/appboard/');
+
+            //$location.path('/contacts/');
            });     
         } else {
             AngularForce.login();           
