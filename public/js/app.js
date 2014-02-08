@@ -17,6 +17,19 @@ angular.module('Contact', []).factory('Contact', function (AngularForceObjectFac
 
     return Contact;
 });
+angular.module('EmployeeDir', []).factory('EmployeeDir', function (AngularForceObjectFactory) {
+    //Describe the contact object
+    var objDesc = {
+        type: 'employee1',
+        fields: ['Name'],
+        where: '',
+        orderBy: 'Name',
+        limit: 20
+    };
+    var Employee = AngularForceObjectFactory(objDesc);
+
+    return Employee;
+});
 
 function HomeCtrl($scope, AngularForce, $location, $route) {
     var isOnline =  AngularForce.isOnline();
@@ -103,6 +116,44 @@ function CallbackCtrl($scope, AngularForce, $location) {
     $location.hash('');
     $location.path('/appboard/');
 }
+
+function EmpListCtrl($scope, AngularForce, $location, Contact) {
+    if (!AngularForce.authenticated()) {
+        return $location.path('/home');
+    }
+
+    $scope.searchTerm = '';
+    $scope.working = false;
+
+    EmployeeDir.query(function (data) {
+        $scope.employees = data.records;
+        $scope.$apply();//Required coz sfdc uses jquery.ajax
+    }, function (data) {
+        alert('Query Error');
+    });
+
+    $scope.isWorking = function () {
+        return $scope.working;
+    };
+
+    $scope.doSearch = function () {
+        EmployeeDir.search($scope.searchTerm, function (data) {
+            $scope.contacts = data;
+            $scope.$apply();//Required coz sfdc uses jquery.ajax
+        }, function (data) {
+        });
+    };
+
+    $scope.doView = function (contactId) {
+        console.log('doView');
+        $location.path('/view/' + contactId);
+    };
+
+    $scope.doCreate = function () {
+        $location.path('/new');
+    }
+}
+
 
 function ContactListCtrl($scope, AngularForce, $location, Contact) {
     if (!AngularForce.authenticated()) {
