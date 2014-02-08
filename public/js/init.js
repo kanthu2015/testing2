@@ -63,7 +63,7 @@ app.config(function ($routeProvider) {
         when('/empdir', {controller: EmpListCtrl, templateUrl: 'partials/empdir/list.html'}).
         when('/view/:contactId', {controller: ContactViewCtrl, templateUrl: 'partials/contact/view.html'}).
         when('/edit/:contactId', {controller: ContactDetailCtrl, templateUrl: 'partials/contact/edit.html'}).
-        when('/empnew', {controller: EmpDetailCtrl, templateUrl: 'partials/empdir/view.html'}).
+        when('/empnew', {controller: EmpCreateCtrl, templateUrl: 'partials/empdir/view.html'}).
         when('/new', {controller: ContactDetailCtrl, templateUrl: 'partials/contact/edit.html'}).
         otherwise({redirectTo: '/'});
 });
