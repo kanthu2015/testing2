@@ -100,7 +100,7 @@ function LoginCtrl($scope, AngularForce, $location) {
 
 
     $scope.gotohome = function () {
-   $location.path('/empdir');
+   $location.path('/appboard');
     };
     $scope.logout = function () {
         AngularForce.logout(function () {
