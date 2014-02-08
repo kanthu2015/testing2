@@ -20,7 +20,7 @@ angular.module('Contact', []).factory('Contact', function (AngularForceObjectFac
 angular.module('EmployeeDir', []).factory('EmployeeDir', function (AngularForceObjectFactory) {
     //Describe the contact object
     var objDesc = {
-        type: 'employee1',
+        type: 'employee1__c',
         fields: ['Name'],
         where: '',
         orderBy: 'Name',
