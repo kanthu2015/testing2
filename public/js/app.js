@@ -101,7 +101,7 @@ function CallbackCtrl($scope, AngularForce, $location) {
     //..coz oauth CB returns access_token in its own hash making it two hashes (1 from angular,
     // and another from oauth)
     $location.hash('');
-    $location.path('/contacts');
+    $location.path('/appboard/');
 }
 
 function ContactListCtrl($scope, AngularForce, $location, Contact) {
