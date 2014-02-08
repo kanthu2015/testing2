@@ -21,7 +21,7 @@ angular.module('EmployeeDir', []).factory('EmployeeDir', function (AngularForceO
     //Describe the contact object
     var objDesc = {
         type: 'employee1__c',
-        fields: ['Name'],
+        fields: ['Name','Id'],
         where: '',
         orderBy: 'Name',
         limit: 20
@@ -117,6 +117,68 @@ function CallbackCtrl($scope, AngularForce, $location) {
     $location.path('/appboard/');
 }
 
+
+function EmpCreateCtrl($scope, AngularForce, $location, $routeParams, EmployeeDir) {
+    var self = this;
+
+    if ($routeParams.empId) {
+        AngularForce.login(function () {
+            EmployeeDir.get({id: $routeParams.empId},
+                function (employee) {
+                    self.original = employee;
+                    $scope.employee = new EmployeeDir(self.original);
+                    $scope.$apply();//Required coz sfdc uses jquery.ajax
+                });
+        });
+    } else {
+        $scope.employee = new EmployeeDir();
+        //$scope.$apply();
+    }
+
+    $scope.isClean = function () {
+        return angular.equals(self.original, $scope.employee);
+    }
+
+    $scope.destroy = function () {
+        self.original.destroy(
+            function () {
+                $scope.$apply(function () {
+                    $location.path('/empdir');
+                });
+            },
+            function (errors) {
+                alert("Could not delete employee!\n" + JSON.parse(errors.responseText)[0].message);
+            }
+        );
+    };
+
+    $scope.save = function () {
+        if ($scope.employee.Id) {
+            $scope.employee.update(function () {
+                $scope.$apply(function () {
+                    $location.path('/view/' + $scope.employee.Id);
+                });
+
+            });
+        } else {
+            EmployeeDir.save($scope.employee, function (employee) {
+                var c = employee;
+                $scope.$apply(function () {
+                    $location.path('/view/' + c.Id || c.id);
+                });
+            });
+        }
+    };
+
+    $scope.doCancel = function () {
+        if ($scope.employee.Id) {
+            $location.path('/view/' + $scope.employee.Id);
+        } else {
+            $location.path('/empdir');
+        }
+    }
+}
+
 function EmpListCtrl($scope, AngularForce, $location, EmployeeDir) {
     if (!AngularForce.authenticated()) {
         return $location.path('/home');
@@ -137,7 +199,7 @@ function EmpListCtrl($scope, AngularForce, $location, EmployeeDir) {
 
     $scope.doSearch = function () {
         EmployeeDir.search($scope.searchTerm, function (data) {
-            $scope.contacts = data;
+            $scope.employees = data;
             $scope.$apply();//Required coz sfdc uses jquery.ajax
         }, function (data) {
         });
