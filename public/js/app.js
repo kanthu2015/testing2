@@ -211,7 +211,7 @@ function EmpListCtrl($scope, AngularForce, $location, EmployeeDir) {
     };
 
     $scope.doCreate = function () {
-        $location.path('/new');
+        $location.path('/empnew');
     }
 }
 
