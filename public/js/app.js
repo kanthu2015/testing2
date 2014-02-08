@@ -117,14 +117,13 @@ function CallbackCtrl($scope, AngularForce, $location) {
     $location.path('/appboard/');
 }
 
-function EmpListCtrl($scope, AngularForce, $location, Contact) {
+function EmpListCtrl($scope, AngularForce, $location, EmployeeDir) {
     if (!AngularForce.authenticated()) {
         return $location.path('/home');
     }
 
     $scope.searchTerm = '';
     $scope.working = false;
-
     EmployeeDir.query(function (data) {
         $scope.employees = data.records;
         $scope.$apply();//Required coz sfdc uses jquery.ajax
