@@ -98,6 +98,10 @@ function LoginCtrl($scope, AngularForce, $location) {
         return AngularForce.authenticated();
     };
 
+
+    $scope.gotohome = function () {
+   $location.path('/empdir');
+    };
     $scope.logout = function () {
         AngularForce.logout(function () {
             //Now go to logout page
@@ -164,7 +168,8 @@ function EmpCreateCtrl($scope, AngularForce, $location, $routeParams, EmployeeDi
             EmployeeDir.save($scope.employee, function (employee) {
                 var c = employee;
                 $scope.$apply(function () {
-                    $location.path('/view/' + c.Id || c.id);
+                    $location.path('/empdir');
+                    //$location.path('/view/' + c.Id || c.id);
                 });
             });
         }
